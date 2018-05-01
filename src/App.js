@@ -4,13 +4,16 @@ import './App.css';
 // Packages
 import 'tachyons';
 import Particles from 'react-particles-js';
+import Clarifai from 'clarifai';
 
 // Components
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
+import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 
+// Options for particles.js
 const ParticleParams = {
   particles: {
     "number": {
@@ -82,16 +85,45 @@ const ParticleParams = {
   }
 }
 
+// Clarifai API configuration
+const app = new Clarifai.App({apiKey: 'a911ba983b324580987163ea2c293bd4'});
+
 class App extends Component {
+
+  constructor() {
+    super();
+    // Setup state object
+    this.state = {
+      input: '',
+      imageURL: ''
+    }
+  }
+
+  // Check whenever there is an input on ImageLinkForm
+  onInputChange = (event) => {
+    this.setState({input: event.target.value});
+  }
+
+  // When detect button is clicked
+  onButtonSubmit = () => {
+    this.setState({imageURL: this.state.input});
+
+    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input).then(function(response) {
+      // Print bounding box
+      console.log(response.outputs["0"].data.regions["0"].region_info.bounding_box);
+    }, function(err) {
+      console.log(err);
+    });
+  }
+
   render() {
     return (<div className="App">
       <Particles className='particles' params={ParticleParams}/>
       <Navigation/>
       <Logo/>
       <Rank/>
-      <ImageLinkForm/> {/*
-      <FaceRecognition/> */
-      }
+      <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+      <FaceRecognition imageURL={this.state.imageURL}/>
     </div>);
   }
 }
