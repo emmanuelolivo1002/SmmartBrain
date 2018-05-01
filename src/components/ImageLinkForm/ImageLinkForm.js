@@ -3,7 +3,7 @@ import './ImageLinkForm.css';
 
 const ImageLinkForm = () => {
   return (
-  // Navigation Bar
+  // Form for image link
   <div>
     <p className='f3'>
       {'This app will detect any face in your pictures. Give it a try!'}
