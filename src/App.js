@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import './App.css';
 import 'tachyons';
 import Navigation from './components/Navigation/Navigation';
+import Logo from './components/Logo/Logo';
 
 class App extends Component {
   render() {
     return (<div className="App">
-      <Navigation/> {/* <Logo/>
+      <Navigation/>
+      <Logo/> {/*
       <ImageLinkForm/>
       <FaceRecognition/> */
       }
