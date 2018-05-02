@@ -100,11 +100,18 @@ class App extends Component {
       imageURL: '',
       box: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
   }
 
-  
+
 
   // Calculate with response where the bounding_box would be located
   calculateFaceLocation = (data) => {
@@ -122,6 +129,16 @@ class App extends Component {
       bottomRow: height - (clarifaiFace.bottom_row * height)
     }
 
+  }
+
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    }});
   }
 
   displayFaceBox = (box) => {
@@ -166,8 +183,8 @@ class App extends Component {
           </div>
           : (
             route === 'signin'
-            ? <Signin onRouteChange={this.onRouteChange} />
-            : <Register onRouteChange={this.onRouteChange} />
+            ? <Signin onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
+            : <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
           )
         }
       </div>
