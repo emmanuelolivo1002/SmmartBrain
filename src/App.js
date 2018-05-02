@@ -104,6 +104,8 @@ class App extends Component {
     }
   }
 
+  
+
   // Calculate with response where the bounding_box would be located
   calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs["0"].data.regions["0"].region_info.bounding_box;
